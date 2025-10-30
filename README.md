@@ -1,5 +1,7 @@
 ## [NeurIPS 2025] Leveraging Depth and Language for Open-Vocabulary Domain-Generalized Semantic Segmentation
 
+This is early-stage code, not the full implementation. The latest version will be released in about two weeks. Thanks for your understanding.
+
 ## Installation & Environment Setup
 
 Clone the repository:
