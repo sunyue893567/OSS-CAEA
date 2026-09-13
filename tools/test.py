@@ -22,7 +22,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description="MMSeg test (and eval) a model")
     parser.add_argument("config", help="train config file path")
     parser.add_argument("checkpoint", help="OSS-CAEA model checkpoint file")
-    parser.add_argument("--backbone", help="backbone checkpoint file", default="")
     parser.add_argument(
         "--work-dir",
         help=(
@@ -117,13 +116,6 @@ def main():
         )
     cfg.work_dir = cfg.work_dir + "_test"
     cfg.load_from = args.checkpoint
-    if args.backbone:
-        custom_hooks = getattr(cfg, "custom_hooks", [])
-        custom_hooks.append(
-            dict(type="LoadBackboneHook", checkpoint_path=args.backbone)
-        )
-        setattr(cfg, "custom_hooks", custom_hooks)
-
     if args.show or args.show_dir:
         cfg = trigger_visualization_hook(cfg, args)
 

@@ -41,7 +41,7 @@ class OSSCAEABackbone(BaseModule):
                     depth=depth, num_heads=num_heads, init_values=1e-5,
                     block_chunks=0, out_indices=list(out_indices))
         # DA V2-Large uses a DINOv2-Large encoder: load its pretrained.* weights.
-        # Its depth prediction decoder is unused; no PromptDA/submodule import.
+        # Its depth prediction decoder is unused.
         self.vfm = DinoVisionTransformer(**args)
         self.depth_encoder = DinoVisionTransformer(**args)
         if clip_checkpoint:

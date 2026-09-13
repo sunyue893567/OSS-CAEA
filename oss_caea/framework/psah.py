@@ -67,6 +67,3 @@ class PSAH(Mask2FormerHead):
         losses['loss_coarse'] = self.coarse_loss_weight * coarse_segmentation_loss(
             inputs['coarse_logits'], target, self.ignore_index, self.coarse_alpha)
         return losses
-
-# Compatibility with OSS-CAEA configs saved before the project rename.
-MODELS.register_module(name='OSSCAEAPSAH', module=PSAH)

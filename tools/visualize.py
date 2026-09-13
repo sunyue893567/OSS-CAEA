@@ -10,7 +10,6 @@ sys.path.append(os.curdir)
 
 from mmengine.config import Config
 from mmseg.utils import get_classes, get_palette
-from mmengine.runner.checkpoint import _load_checkpoint
 from oss_caea.utils import init_model
 from mmseg.apis import inference_model
 import oss_caea
@@ -52,11 +51,6 @@ def parse_args():
         help="Keyword to filter images within the directory. Default is no filtering.",
     )
     parser.add_argument(
-        "--backbone",
-        default="checkpoints/dinov2_vitl14_converted_1024x1024.pth",
-        help="Path to the backbone model checkpoint. Default is 'checkpoints/dinov2_vitl14_converted_1024x1024.pth'.",
-    )
-    parser.add_argument(
         "--save_dir",
         default="work_dirs/show",
         help="Directory to save the output images. Default is 'work_dirs/show'.",
@@ -73,18 +67,6 @@ def parse_args():
     )
     args = parser.parse_args()
     return args
-
-
-def load_backbone(checkpoint: dict, backbone_path: str) -> None:
-    converted_backbone_weight = _load_checkpoint(backbone_path, map_location="cpu")
-    if "state_dict" in checkpoint:
-        checkpoint["state_dict"].update(
-            {f"backbone.{k}": v for k, v in converted_backbone_weight.items()}
-        )
-    else:
-        checkpoint.update(
-            {f"backbone.{k}": v for k, v in converted_backbone_weight.items()}
-        )
 
 
 classes = get_classes("cityscapes")
@@ -185,9 +167,6 @@ def main():
         ]
     model = init_model(cfg, args.checkpoint, device=args.device)
     model = model.cuda(args.device)
-    state_dict = model.state_dict()
-    load_backbone(state_dict, args.backbone)
-    model.load_state_dict(state_dict, strict=False)
     mmengine.mkdir_or_exist(args.save_dir)
     images = []
     if osp.isfile(args.images):

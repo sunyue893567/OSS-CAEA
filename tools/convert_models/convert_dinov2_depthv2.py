@@ -11,7 +11,7 @@ import argparse
 def parse_args():
     args = argparse.ArgumentParser()
     args.add_argument("pretrained", type=str)
-    args.add_argument("promptdepthanything", type=str)
+    args.add_argument("depth_anything_checkpoint", type=str)
     args.add_argument("converted", type=str)
     args.add_argument("--kernel", default=16, type=int)
     args.add_argument("--height", default=512, type=int)
@@ -113,7 +113,7 @@ def remove_pipeline_prefix(state_dict, prefix="pipeline."):
 def main():
     args = parse_args()
     pretrained_path = args.pretrained
-    depthanything_path = args.promptdepthanything
+    depth_anything_path = args.depth_anything_checkpoint
     converted_path = args.converted
     kernel_conv = args.kernel
     crop_size = (args.height, args.width)
@@ -123,12 +123,12 @@ def main():
     interpolate_pos_embed_(weight, crop_size=crop_size, kernel_conv=kernel_conv)
     # weight.update({f"backbone.{k}": v for k, v in weight.items()})
     depthweight = torch.load(
-        depthanything_path,
+        depth_anything_path,
         map_location="cpu",
     )
     depthweight = depthweight["state_dict"]
     depthweight = remove_pipeline_prefix(depthweight)
-    print("Load from", depthanything_path)
+    print("Load from", depth_anything_path)
     sd_no_pretrained, changed_keys = remove_pretrained_prefix(depthweight)
     interpolate_patch_embed_(sd_no_pretrained, kernel_conv=kernel_conv)
     interpolate_pos_embed_(

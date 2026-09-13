@@ -38,9 +38,7 @@ installation logs referring to the original project path have also been removed.
 README/setup instructions now describe only OSS-CAEA, CAM, Coarse Segmentation
 Head and PSAH. The original license and accurate research credit are preserved.
 
-Current configurations select OSSCAEA -> OSSCAEABackbone -> PSAH. CAM and the
-coarse head are separate files. The saved-config alias OSSCAEAPSAH still points to
-PSAH; this alias contains the current model name and does not create duplicate weights.
+Current configurations select OSSCAEA -> OSSCAEABackbone -> PSAH. CAM and the coarse head are separate files.
 Parameter keys and the active network computations remain unchanged.
 
 The cleanup scans source, configuration, tools, tests, documentation and their

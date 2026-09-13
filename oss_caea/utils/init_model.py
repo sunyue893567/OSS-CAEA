@@ -1,14 +1,11 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import warnings
-from collections import defaultdict
 from pathlib import Path
-from typing import Optional, Sequence, Union
+from typing import Optional, Union
 from mmengine import Config
 from mmengine.registry import init_default_scope
-from mmengine.runner import load_checkpoint
 from mmseg.registry import MODELS
-from mmseg.utils import SampleList, dataset_aliases, get_classes, get_palette
-from oss_caea.hooks.load_backbone_hook import load_backbone
+from mmseg.utils import dataset_aliases, get_classes, get_palette
 import torch
 
 
@@ -23,10 +20,7 @@ def init_model(
     Args:
         config (str, :obj:`Path`, or :obj:`mmengine.Config`): Config file path,
             :obj:`Path`, or the config object.
-        checkpoint:
-            if type==str: load checkpoint path directly
-            if type==dict: legacy split checkpoint ['backbone'] and ['rein_head'];
-            OSS-CAEA uses the complete checkpoint filename.
+        checkpoint: path to a complete OSS-CAEA model checkpoint.
         device (str, optional) CPU/CUDA device option. Default 'cuda:0'.
             Use 'cpu' for loading model on CPU.
         cfg_options (dict, optional): Options to override some settings in
@@ -53,13 +47,8 @@ def init_model(
     if checkpoint is not None:
         if isinstance(checkpoint, str):
             checkpoint = torch.load(checkpoint, map_location="cpu", weights_only=False)
-        elif isinstance(checkpoint, dict):
-            backbone = checkpoint["backbone"]
-            rein_head = checkpoint["rein_head"]
-            checkpoint = torch.load(rein_head, map_location="cpu")
-            load_backbone(checkpoint, backbone)
         else:
-            raise NotImplementedError()
+            raise TypeError("checkpoint must be a path to a complete model checkpoint")
         if "meta" not in checkpoint:
             checkpoint["meta"] = {}
         dataset_meta = checkpoint["meta"].get("dataset_meta", None)
@@ -93,7 +82,8 @@ def init_model(
                 "palette": get_palette(dataset_name),
             }
     model.cfg = config  # save the config in the model for convenience
-    model.load_state_dict(checkpoint["state_dict"], strict=False)
+    if checkpoint is not None:
+        model.load_state_dict(checkpoint["state_dict"], strict=False)
     model.to(device)
     model.eval()
     return model

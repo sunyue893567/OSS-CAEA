@@ -115,7 +115,7 @@ Place the following original checkpoints in checkpoints/:
 
 Use original patch-14 checkpoints rather than converted patch-16 checkpoints. This model uses native patch 14
 and pads RGB to complete patches. DA V2's pretrained encoder is implemented with
-the shared DINOv2 class; its depth decoder/PromptDA dependency is not used.
+the shared DINOv2 class; its depth decoder is not used.
 Missing or incompatible weights fail explicitly; production never silently freezes
 random encoders. CLIP is loaded on CPU, then follows the model device. Text caches
 are buffers that move with the model but are regenerated from the chosen vocabulary.
@@ -143,7 +143,7 @@ PYTHONDONTWRITEBYTECODE=1 .venv-oss-caea/bin/python -m pytest tests/test_oss_cae
 ```
 
 Training checkpoints include frozen encoder weights under normal MMEngine saving;
-use the full-model checkpoint instead of the legacy --backbone replacement hook. The external
+use the complete model checkpoint. The external
 pretrained files are still required for initial model construction. Changing the
 configured class JSON and head num_classes permits checkpoint loading with a new
 vocabulary because there is no trainable category-count-dependent classifier matrix.
@@ -172,8 +172,7 @@ Research attribution and preserved license terms are recorded in
 
 The repository root is /home/featurize/Code/OSS-CAEA and the Python package is
 oss_caea. Public names are OSSCAEA, OSSCAEABackbone, CAM, CoarseSegmentationHead and PSAH.
-Old OSSCAEAPSAH saved-config names remain accepted as an alias for PSAH;
-parameter names/state_dict keys are unchanged, so existing OSS-CAEA weights load.
+Parameter names/state_dict keys are unchanged, so existing OSS-CAEA weights load.
 Only the current model implementation and shared foundation-model utilities are
 retained in this working tree. Superseded model implementations and configs were
 removed. See NAMING-AUDIT.md for the current Figure 2/3/4 name-to-code mapping.
