@@ -8,7 +8,7 @@ from mmseg.utils import get_classes, get_palette
 import numpy as np
 import torch
 import tqdm
-import vireo
+import oss_caea
 
 classes = get_classes("cityscapes")
 palette = get_palette("cityscapes")

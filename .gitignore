@@ -4,3 +4,9 @@ checkpoints/*
 **/__pycache__
 data
 checkpoints
+
+# Local OSS-CAEA validation environment
+.venv-oss-caea/
+oss_caea_*install.log
+.pytest_cache/
+oss_caea_tests.log

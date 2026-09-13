@@ -13,7 +13,7 @@ from mmengine.logging import print_log
 from mmengine.runner import Runner
 
 from mmseg.registry import RUNNERS
-import vireo
+import oss_caea
 
 logging.basicConfig(level=logging.ERROR)
 

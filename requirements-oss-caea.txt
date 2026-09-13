@@ -1,0 +1,17 @@
+# Python 3.11; install MMCV binary from cu121/torch2.1 wheel index in docs/OSS-CAEA.md.
+numpy>=1.26,<2
+torch==2.1.2
+torchvision==0.16.2
+torchaudio==2.1.2
+mmcv==2.1.0
+mmengine==0.10.7
+mmsegmentation==1.2.2
+mmdet==3.3.0
+ftfy
+regex
+einops
+scipy
+prettytable
+matplotlib
+tensorboard
+pytest

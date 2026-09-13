@@ -10,7 +10,7 @@ sys.path.append(os.curdir)
 
 from mmengine.config import Config, DictAction
 from mmengine.runner import Runner
-import vireo
+import oss_caea
 
 import warnings
 
@@ -21,7 +21,7 @@ warnings.filterwarnings("ignore")
 def parse_args():
     parser = argparse.ArgumentParser(description="MMSeg test (and eval) a model")
     parser.add_argument("config", help="train config file path")
-    parser.add_argument("checkpoint", help="vireo and head checkpoint file")
+    parser.add_argument("checkpoint", help="OSS-CAEA model checkpoint file")
     parser.add_argument("--backbone", help="backbone checkpoint file", default="")
     parser.add_argument(
         "--work-dir",

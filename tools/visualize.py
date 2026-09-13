@@ -11,9 +11,9 @@ sys.path.append(os.curdir)
 from mmengine.config import Config
 from mmseg.utils import get_classes, get_palette
 from mmengine.runner.checkpoint import _load_checkpoint
-from vireo.utils import init_model
+from oss_caea.utils import init_model
 from mmseg.apis import inference_model
-import vireo
+import oss_caea
 import tqdm
 import mmengine
 import torch
@@ -31,7 +31,7 @@ def parse_args():
     parser.add_argument("config", help="Path to the training configuration file.")
     parser.add_argument(
         "checkpoint",
-        help="Path to the checkpoint file for both the vireo and head models.",
+        help="Path to the OSS-CAEA model checkpoint file.",
     )
     parser.add_argument(
         "images", help="Directory or file path of images to be processed."
